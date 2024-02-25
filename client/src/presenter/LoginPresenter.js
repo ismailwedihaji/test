@@ -34,7 +34,7 @@ const LoginPresenter = () => {
     }
 
     if (!isNaN(username.charAt(0))) {
-        setLoginStatus({
+      setLoginStatus({
         isRegistered: false,
         message: "Username must not start with a number.",
       });
@@ -49,6 +49,7 @@ const LoginPresenter = () => {
       return;
     }
     try {
+      console.log("API URL:", process.env.REACT_APP_API_URL);
       const response = await fetch(`${process.env.REACT_APP_API_URL}/login`, {
         method: "POST",
         headers: {
@@ -57,13 +58,12 @@ const LoginPresenter = () => {
         credentials: "include",
         body: JSON.stringify({ username, password }),
       });
-      
 
       const data = await response.json();
 
       if (data.success) {
-        localStorage.setItem("user", JSON.stringify(data.user)); 
-        console.log("users role" + data.user.role); 
+        localStorage.setItem("user", JSON.stringify(data.user));
+        console.log("users role" + data.user.role);
         setLoginStatus({
           isLoggedIn: true,
           message: "Login successful",
@@ -71,19 +71,19 @@ const LoginPresenter = () => {
         });
 
         setTimeout(() => {
-          navigate("/dashboard"); 
+          navigate("/dashboard");
         }, 2000);
       } else {
         setLoginStatus({
           isLoggedIn: false,
-          message: "Invalid credentials", 
+          message: "Invalid credentials",
           user: null,
         });
       }
     } catch (error) {
       setLoginStatus({
         isLoggedIn: false,
-        message: "An error occurred while logging in.", 
+        message: "An error occurred while logging in.",
         user: null,
       });
     }
