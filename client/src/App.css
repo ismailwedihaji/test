@@ -1,0 +1,317 @@
+.main {
+  flex: 1; /* This will make sure the content takes up the available space */
+}
+
+.App {
+  display: flex;
+  flex-direction: column; 
+  min-height: 100vh; 
+  text-align: center;
+  font-family: 'Arial', sans-serif;
+}
+
+form {
+  margin: 20px auto;
+  max-width: 300px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+button {
+  padding: 10px;
+  margin: 5px 0 0 0;
+  border: none;
+  border-radius: 5px;
+  background-color: #5cdb95;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.application-button {
+  width: 50%;
+}
+
+.dashboard-button {
+  width: 20%;
+}
+
+.login-button {
+  display: block;
+  margin: 5px auto 0 auto;
+}
+
+.register-button {
+  display: block;
+  margin: 5px auto 0 auto;
+}
+
+button:hover {
+  background-color: #379683;
+}
+
+p {
+  color: #05386b;
+}
+
+.welcome-message {
+  font-size: 20px;
+  color: #379683;
+  margin: 20px 0;
+}
+
+header {
+  background-color: #379683;
+  color: white;
+  padding: 10px 0;
+}
+
+header nav .nav-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+header a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  height: 100%;
+}
+
+header li {
+  display: inline;
+  margin: 0 15px;
+  height: 100%;
+}
+
+header ul {
+  list-style: none;
+  padding: 0;
+  height: 100%;
+}
+
+header nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+header a:hover {
+  color: #5cdb95;
+  transform: scale(1.2);
+}
+
+.nav-content .home-icon {
+  vertical-align: middle;
+  width: 20px;
+  height: auto;
+  transition: transform 0.3s ease;
+}
+
+.nav-content .home-icon:hover {
+  transform: scale(1.2);
+}
+
+.nav-content .header-link:hover {
+  transition: transform 0.3s ease;
+  transform: scale(1.2);
+}
+
+
+
+
+.loader {
+  border: 4px solid #f3f3f3; /* Light grey */
+  border-top: 4px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 2s linear infinite;
+  text-align: center;
+  margin: auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loader::after {
+  display: block;
+  margin-top: 50px;
+  font-size: 18px;
+}
+
+
+
+
+/* application css */
+.application-container {
+  background-color: #fff;
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif;
+}
+
+.application-container h2 {
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.form-group input[type="number"],
+.form-group input[type="date"],
+.form-group select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.form-group select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f8f8f8;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%23333" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 0.75rem top 50%, 0 0;
+  background-size: 16px 16px;
+}
+
+.application-button {
+  display: block;
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  border-radius: 4px;
+  margin-top: 1rem;
+  background-color: #5cdb95;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.application-button:hover {
+  background-color: #45a17a;
+}
+
+
+
+
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"],
+.form-group input[type="email"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.register-button {
+  padding: 10px 15px;
+  width: 100%;
+  background-color: #5cdb95;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.register-button:hover {
+  background-color: #45a17a;
+}
+
+.login-link {
+  background: none;
+  border: none;
+  color: #5cdb95;
+  padding: 0;
+  cursor: pointer;
+}
+
+.login-link:hover {
+  text-decoration: underline;
+}
+
+.app-footer {
+  background-color: #a0a0a061; /* Dark background for the footer */
+  color: white;
+  padding: 20px 0;
+  width: 100%;
+}
+
+
+.footer-content {
+  max-width: 960px;
+  margin: 0 auto; 
+  padding: 0 20px; 
+  text-align: center;
+  color: black;
+}
+
+.black {
+  color: black;
+}
+
+footer address {
+  font-style: normal;
+  color: black;
+}
+
+.app-content {
+  flex: 1; 
+  display: flex;
+  flex-direction: column; 
+  justify-content: space-between; 
+}
+
+.layout-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.layout-content {
+  flex: 1; 
+  padding-bottom: 100px;
+}
