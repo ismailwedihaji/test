@@ -17,7 +17,7 @@ app.use(cookieParser());
 // }));
 
 const corsOptions = {
-  origin: process.env.CORS_ORIGIN, // This will be the URL of your frontend app
+  origin: 'https://myapp-frontend-u9lq.onrender.com', // This will be the URL of your frontend app
   credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization'],
 };
