@@ -16,43 +16,14 @@ app.use(cookieParser());
 //   allowedHeaders: ['Content-Type', 'Authorization'],
 // }));
 
-// const corsOptions = {
-//   origin: 'https://myapp-frontend-u9lq.onrender.com', // This will be the URL of your frontend app
-//   credentials: true,
-//   allowedHeaders: ['Content-Type', 'Authorization'],
-// };
-
-// const corsOptions = {
-//   origin: process.env.CORS_ORIGIN,
-//   credentials: true,
-//   allowedHeaders: ['Content-Type', 'Authorization'],
-// };
-
-// app.use(cors(corsOptions));
-
-
-
-// const allowedOrigins = ['https://myapp-frontend-u9lq.onrender.com'];
-const allowedOrigins = [process.env.CORS_ORIGIN];
-
 const corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true, // To allow cookies and sessions
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed request methods
-  allowedHeaders: ['Content-Type', 'Authorization'], // Allowed request headers
+  origin: process.env.CORS_ORIGIN, // This will be the URL of your frontend app
+  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization'],
 };
 
-// Then pass these options to the cors middleware
 app.use(cors(corsOptions));
 
-// Enable preflight requests for all routes
-app.options('*', cors(corsOptions));
 
 app.post("/login", authController.login);
 app.post("/register", authController.register);
