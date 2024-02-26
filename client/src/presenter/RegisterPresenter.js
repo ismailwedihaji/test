@@ -67,7 +67,6 @@ const RegisterPresenter = () => {
     
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/register`, {
-        mode: 'no-cors',
         method: "POST",
         headers: {
           "Content-Type": "application/json",
