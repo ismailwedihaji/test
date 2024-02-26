@@ -16,8 +16,14 @@ app.use(cookieParser());
 //   allowedHeaders: ['Content-Type', 'Authorization'],
 // }));
 
+// const corsOptions = {
+//   origin: 'https://myapp-frontend-u9lq.onrender.com', // This will be the URL of your frontend app
+//   credentials: true,
+//   allowedHeaders: ['Content-Type', 'Authorization'],
+// };
+
 const corsOptions = {
-  origin: 'https://myapp-frontend-u9lq.onrender.com', // This will be the URL of your frontend app
+  origin: process.env.CORS_ORIGIN,
   credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization'],
 };
