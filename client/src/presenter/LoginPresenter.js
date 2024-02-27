@@ -49,7 +49,7 @@ const LoginPresenter = () => {
       return;
     }
     try {
-      console.log("HAhello  JAWI SHEKSAWI");
+      
       console.log("API URL:", process.env.REACT_APP_API_URL);
       const response = await fetch(`${process.env.REACT_APP_API_URL}/login`, {
         method: "POST",
