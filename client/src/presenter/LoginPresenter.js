@@ -24,7 +24,7 @@ const LoginPresenter = () => {
    * @param {string} password - The password entered by the user.
    */
 
-  const handleLogin = async (username, password) => {
+  // const handleLogin = async (username, password) => {
     if (username.length < 3) {
       setLoginStatus({
         isRegistered: false,
