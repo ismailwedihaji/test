@@ -10,14 +10,8 @@ const cors = require("cors");
 app.use(express.json());
 app.use(cookieParser());
 
-// app.use(cors({
-//   origin: 'http://localhost:3000', 
-//   credentials: true, 
-//   allowedHeaders: ['Content-Type', 'Authorization'],
-// }));
-
 const corsOptions = {
-  origin: process.env.CORS_ORIGIN, // This will be the URL of your frontend app
+  origin: process.env.CORS_ORIGIN, 
   credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization'],
 };
