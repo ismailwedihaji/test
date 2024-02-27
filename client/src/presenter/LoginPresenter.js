@@ -24,7 +24,7 @@ const LoginPresenter = () => {
    * @param {string} password - The password entered by the user.
    */
 
-  // const handleLogin = async (username, password) => {
+  const handleLogin = async (username, password) => {
     if (username.length < 3) {
       setLoginStatus({
         isRegistered: false,
@@ -49,6 +49,7 @@ const LoginPresenter = () => {
       return;
     }
     try {
+      console.log("HAJAWI SHEKSAWI");
       console.log("API URL:", process.env.REACT_APP_API_URL);
       const response = await fetch(`${process.env.REACT_APP_API_URL}/login`, {
         method: "POST",
