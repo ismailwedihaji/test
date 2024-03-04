@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "jest --runInBand --ci",
+    "test": "jest --runInBand --ci --detectOpenHandles",
     "start": "node server",
     "dev": "nodemon server"
   },
