@@ -1,3 +1,12 @@
+
+you can checkout the link here --> https://myapp-frontend-u9lq.onrender.com/login
+you can create user as an applicant and then you apply your experience job as well as availability,
+ then you accept or reject the applicant as a recuiter, which you can login with this --> 
+Username: DanteMason
+password: EyD84euX5Nj
+
+
+
 # Recruitment Application - IV1201
 
 This project is a full-stack application with client-side rendering and a monolithic architecture.
