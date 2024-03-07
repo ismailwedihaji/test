@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import ApplicationsList from '../view/ApplicationsList';
+import { useTranslation } from 'react-i18next';
+import i18n from "i18next";
+
 
 /**
  * Presenter component for listing all applications.
@@ -15,6 +18,8 @@ const ApplicationsListPresenter = () => {
   const [competences, setCompetences] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCompetences, setSelectedCompetences] = useState([]);
+  const token = localStorage.getItem('token');
+  const { t } = useTranslation();
 
   useEffect(() => {
 
@@ -25,11 +30,13 @@ const ApplicationsListPresenter = () => {
   // Fetch competences when the component mounts
   const fetchCompetences = async () => {
     try {
-      
       const response = await fetch(`${process.env.REACT_APP_API_URL}/apply`, {
+      
         method: "GET",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+          'Accept-Language': i18n.language,
         },
       });
       const data = await response.json();
@@ -40,13 +47,18 @@ const ApplicationsListPresenter = () => {
   };
 
   const fetchApplications = async () => {
+
     try {
+
+      const token = localStorage.getItem('token');
       
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/applications`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/applications`, {
         method: 'GET',
         credentials: 'include', 
         headers: {
           'Content-Type': 'application/json',
+          "Authorization": `Bearer ${token}`,
+          'Accept-Language': i18n.language,
         },
       });
 
@@ -58,8 +70,10 @@ const ApplicationsListPresenter = () => {
       setApplications(data.applications);
 
     } catch (err) {
-      setError(err.message);
+      console.log(err)
+      setError(t("error_fetching_applications"));
     }
+
   };
 
   useEffect(() => {
@@ -80,7 +94,7 @@ const ApplicationsListPresenter = () => {
     setFilteredApplications(filtered);
   }, [applications, searchTerm, selectedCompetences]);
 
-    // Handlers to be passed to the view
+    
     const handleSearchTermChange = (newSearchTerm) => {
       setSearchTerm(newSearchTerm);
     };
@@ -91,10 +105,13 @@ const ApplicationsListPresenter = () => {
 
     const handleStatusChange = async (status, person_id) => {
       try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/applications`, {
+        const token = localStorage.getItem('token');
+          const response = await fetch(`${process.env.REACT_APP_API_URL}/applications`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+            'Accept-Language': i18n.language,
           },
           credentials: "include",
           body: JSON.stringify({ status, person_id }),

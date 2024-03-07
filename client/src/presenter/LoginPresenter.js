@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Login from "../view/Login";
 import { useNavigate } from "react-router-dom";
 import "../App.css";
+import { useTranslation } from 'react-i18next';
+import i18n from "i18next";
 
 /**
  * Presenter component for handling user login functionality.
@@ -16,6 +18,7 @@ const LoginPresenter = () => {
     user: null,
   });
 
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   /**
@@ -28,7 +31,7 @@ const LoginPresenter = () => {
     if (username.length < 3) {
       setLoginStatus({
         isRegistered: false,
-        message: "Username must be at least 3 characters long.",
+        message: t("login.three_characters_long"),
       });
       return;
     }
@@ -36,7 +39,7 @@ const LoginPresenter = () => {
     if (!isNaN(username.charAt(0))) {
       setLoginStatus({
         isRegistered: false,
-        message: "Username must not start with a number.",
+        message: t("login.username_not_start_with_number"),
       });
       return;
     }
@@ -44,30 +47,34 @@ const LoginPresenter = () => {
     if (password.length < 6) {
       setLoginStatus({
         isRegistered: false,
-        message: "password must be at least 6 characters long.",
+        message: t("login.password_atleast_six_characters"),
       });
       return;
     }
     try {
-      
       console.log("API URL:", process.env.REACT_APP_API_URL);
+      console.log('API URL:', process.env.REACT_APP_API_URL);
+
       const response = await fetch(`${process.env.REACT_APP_API_URL}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          'Accept-Language': i18n.language,
         },
         credentials: "include",
         body: JSON.stringify({ username, password }),
       });
 
       const data = await response.json();
-
+      console.log(data.message);
       if (data.success) {
+        localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.user));
+        
         console.log("users role" + data.user.role);
         setLoginStatus({
           isLoggedIn: true,
-          message: "Login successful",
+          message: t("login.login_successful"),
           user: data.user,
         });
 
@@ -77,14 +84,14 @@ const LoginPresenter = () => {
       } else {
         setLoginStatus({
           isLoggedIn: false,
-          message: "Invalid credentials",
+          message: t(data.message) || t("login.invalid_credentials"),
           user: null,
         });
       }
     } catch (error) {
       setLoginStatus({
         isLoggedIn: false,
-        message: "An error occurred while logging in.",
+        message: t("login.login_error"),
         user: null,
       });
     }

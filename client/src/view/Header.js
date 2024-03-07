@@ -2,23 +2,30 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import homeIcon from "../images/home.png";
 import "../App.css";
+import { useTranslation } from 'react-i18next';
 
 /**
- * Component for displaying the header navigation.
- * @returns {React.ReactElement} The header component.
+ * Header component that provides navigation links and a logout functionality within the application.
+ * It showcases a home icon linked to the dashboard, a jobs link, and a logout button. Logging out
+ * removes user data from local storage and redirects to the login page. The component also displays
+ * a loading indicator during the logout process to enhance user experience.
+ *
+ * @component
+ * @returns {React.ReactElement} Renders the navigation header with home icon, jobs link, and logout button.
  */
-
 const Header = () => {
   const navigate = useNavigate();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const { t } = useTranslation();
 
   /**
-   * Handles the logout process.
-   * Removes user data from local storage and navigates to the login page.
+   * Handles the user logout process by removing user-related data from local storage
+   * and navigating to the login page after a brief delay to simulate a logout process.
    */
   const handleLogout = () => {
     setIsLoggingOut(true);
     localStorage.removeItem("user");
+    localStorage.removeItem("token");
 
     setTimeout(() => {
       setIsLoggingOut(false);
@@ -33,13 +40,13 @@ const Header = () => {
           {!isLoggingOut ? (
             <>
               <Link to="/dashboard">
-                <img src={homeIcon} alt="Home" className="home-icon" />
+                <img src={homeIcon} alt={t("header.home")} className="home-icon" />
               </Link>
               <Link to="/dashboard" className="header-link">
-                Grönalund jobb
+                {t("header.jobs")} 
               </Link>
               <button onClick={handleLogout} className="header-link">
-                Logout
+                {t("header.logout")}
               </button>
             </>
           ) : (

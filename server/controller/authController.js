@@ -1,39 +1,58 @@
+const pool = require("../db");
 const jwt = require("jsonwebtoken");
 const userDAO = require("../integration/userDAO");
 const bcrypt = require("bcrypt");
 
+/**
+ * Handles user login, including authentication and token generation.
+ * Logs the login attempt, including user details and IP address, for security auditing.
+ * 
+ * @param {Object} req - The HTTP request object.
+ * @param {Object} res - The HTTP response object.
+ */
 const login = async (req, res) => {
   const { username, password } = req.body;
   const userAgent = req.headers['user-agent'];
+  const ipAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 
   if (!username || !password) {
-    return res.status(400).json({ success: false, message: "Username and password are required." });
+    return res.status(400).json({ success: false, message: "authorization_validation.login.required_fields" });
   }
 
   if (username.length < 3) {
-    return res.status(400).json({ success: false, message: "Username must be at least 3 characters long" });
+    return res.status(400).json({ success: false, message: "authorization_validation.username_short" });
+  }
+
+  if (!isNaN(username.charAt(0))) {
+    return res.status(400).json({ success: false, message: "authorization_validation.username_numeric_start" });
   }
 
   if (password.length < 6) {
-    return res.status(400).json({ success: false, message: "password must be at least 6 characters long" });
+    return res.status(400).json({ success: false, message: "authorization_validation.password_short" });
   }
 
+  const client = await pool.connect();
+
   try {
+    
+    await client.query('BEGIN');
+    
     const user = await userDAO.findUserByUsername(username);
 
     if (!user) {
-      await userDAO.logFailedAttempt(null, null, null, "User not found", userAgent);
-      return res.status(401).json({ success: false, message: "Invalid credentials" });
+      await userDAO.logFailedAttempt(client, null, null, null, "User not found", userAgent, ipAddress);
+      await client.query('ROLLBACK');
+      return res.status(401).json({ success: false, message: "authorization_validation.invalid_credentials" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
-
     if (!isMatch) {
-      await userDAO.logFailedAttempt(null, null, username, "Entered wrong password", userAgent);
-      return res.status(401).json({ success: false, message: "Invalid credentials" });
+      await userDAO.logFailedAttempt(client, null, null, username, "Entered wrong password", userAgent, ipAddress);
+      await client.query('ROLLBACK');
+      return res.status(401).json({ success: false, message: "authorization_validation.invalid_credentials" });
     }
 
-    const payload = {
+      const payload = {
       person_id: user.person_id,
       name: user.name,
       username: user.username,
@@ -44,47 +63,75 @@ const login = async (req, res) => {
       expiresIn: "30 minutes",
     });
 
-    res.cookie("token", token, { httpOnly: true });
-    res.json({ success: true, message: "Login successful", user: payload });
+res.json({ success: true, message: "authorization_validation.login_successful", user: payload, token: token });
 
+
+    // Commit if all goes well
+    await client.query('COMMIT');
   } catch (error) {
+    // Rollback in case of any error
+    await client.query('ROLLBACK');
+
+    console.log(error.message)
+
+    if (error.message === "authorization_validation.username_numeric_start" || error.message === "authorization_validation.username_short") {
+      return res.status(400).json({ success: false, message: error.message });
+    }
+    
     console.error('Login error:', error);
-    // You could also use the logFailedAttempt function here if it makes sense for your application
-    res.status(500).json({ success: false, message: "An error occurred during login." });
+    res.status(500).json({ success: false, message: "authorization_validation.login_error" });
+  } finally {
+    // Release the client in the end
+    client.release();
   }
 };
 
+/**
+ * Handles new user registration, including input validation and user creation.
+ * Logs the registration attempt, including user details and IP address, for security auditing.
+ * 
+ * @param {Object} req - The HTTP request object.
+ * @param {Object} res - The HTTP response object.
+ */
 const register = async (req, res) => {
+  
   const { name, surname, pnr, password, email, username } = req.body;
   const userAgent = req.headers['user-agent'];
+  const ipAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 
-  try {
     if (!username || username.length < 3) {
-      return res.status(400).send({ success: false, message: "Username must be at least 3 characters long." });
+      return res.status(400).send({ success: false, message: "authorization_validation.username_short" });
     }
 
     if (!password || password.length < 6) {
-      return res.status(400).send({ success: false, message: "Password must be at least 6 characters long." });
+      return res.status(400).send({ success: false, message: "authorization_validation.password_short" });
     }
 
     if (isNaN(pnr) || pnr.includes(".")) {
-      return res.status(400).send({ success: false, message: "PNR must be a number." });
+      return res.status(400).send({ success: false, message: "authorization_validation.pnr_numeric" });
     }
 
     if (!email.includes("@") || !email.includes(".")) {
-      return res.status(400).send({ success: false, message: "Please enter a valid email address." });
+      return res.status(400).send({ success: false, message: "authorization_validation.email_invalid" });
     }
+
+  const client = await pool.connect();
+
+  try {
+    await client.query('BEGIN');
 
     const existingUser = await userDAO.findUserByUsernameOrEmail(username, email);
 
     if (existingUser) {
-      return res.status(409).json({ success: false, message: "User already exists" });
+      
+      return res.status(409).json({ success: false, message: "authorization_validation.user_already_exists" });
     }
 
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-    const userCreationResult = await userDAO.createUser({
+
+    const userCreationResult = await userDAO.createUser(client, {
       name,
       surname,
       pnr,
@@ -94,17 +141,40 @@ const register = async (req, res) => {
     });
 
     if (userCreationResult.success) {
-      res.json({ success: true, message: "Registration successful" });
+      await client.query('COMMIT');
+      res.json({ success: true, message: "authorization_validation.registration_successful" });
     } else {
+      
       const logMessage = "Could not register user";
-      await userDAO.logFailedAttempt(null, email, username, logMessage, userAgent);
+      await userDAO.logFailedAttempt(client, null, email, username, logMessage, userAgent, ipAddress);
+      await client.query('ROLLBACK');
       res.status(500).json({ success: false, message: logMessage });
     }
-
   } catch (error) {
-    console.error('Registration error:', error);
-    await userDAO.logFailedAttempt(null, email, username, error.message, userAgent);
-    res.status(500).json({ success: false, message: "An error occurred during registration." });
+   
+    if (client) {
+      await client.query('ROLLBACK');
+    }
+
+    if (error.message === "authorization_validation.username_short" || 
+    error.message === "authorization_validation.password_short") {
+      return res.status(400).json({ success: false, message: error.message });
+    } else if (error.message === "authorization_validation.username_numeric_start"){
+      return res.status(400).json({ success: false, message: error.message });
+    } else if (error.message === "authorization_validation.pnr_numeric") {
+      return res.status(400).json({ success: false, message: error.message });
+    } else if (error.message === "authorization_validation.email_invalid") {
+      return res.status(400).json({ success: false, message: error.message });
+    } else if (error.message === "authorization_validation.user_already_exists") {
+      return res.status(409).json({ success: false, message: error.message });
+    }
+    else{
+      console.error('Registration error:', error);
+      await userDAO.logFailedAttempt(client, null, email, username, error.message, userAgent, ipAddress);
+      res.status(500).json({ success: false, message: "authorization_validation.registration_error" });
+    }
+  } finally {
+    client.release();
   }
 };
 

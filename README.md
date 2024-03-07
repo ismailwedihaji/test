@@ -1,70 +1,137 @@
-# Getting Started with Create React App
+# Recruitment Application - IV1201
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is a full-stack application with client-side rendering and a monolithic architecture.
 
-## Available Scripts
+## Project Structure
 
-In the project directory, you can run:
+- **Frontend (Client):** React (JavaScript)
+- **Backend (Server):** Express (Node.js)
+- **Database:** PostgreSQL
 
-### `npm start`
+## Live Demo
 
-Runs the app in the development mode.\
+Experience the Recruitment Application directly by visiting our live deployment [here](https://iv1201-project-1.onrender.com/). Explore the features and functionalities as both a candidate and a recruiter.
+
+
+## Built With
+
+* [![React][React.js]][React-url]
+* [![Express][Express.js]][Express-url]
+* [![PostgreSQL][PostgreSQL.js]][PostgreSQL-url]
+* [![JavaScript][JavaScript.js]][JavaScript-url]
+* [![HTML5][HTML5.js]][HTML5-url]
+* [![CSS3][CSS3.js]][CSS3-url]
+* [![Git][Git.js]][Git-url]
+* [![GitHub Actions][GitHubActions.js]][GitHubActions-url]
+* [![Jest][Jest.js]][Jest-url]
+
+<!-- MARKDOWN LINKS & IMAGES -->
+[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
+[React-url]: https://reactjs.org/
+[Express.js]: https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB
+[Express-url]: https://expressjs.com/
+[PostgreSQL.js]: https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white
+[PostgreSQL-url]: https://www.postgresql.org/
+[JavaScript.js]: https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E
+[JavaScript-url]: https://developer.mozilla.org/en-US/docs/Web/JavaScript
+[HTML5.js]: https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white
+[HTML5-url]: https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5
+[CSS3.js]: https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white
+[CSS3-url]: https://developer.mozilla.org/en-US/docs/Web/CSS
+[Git.js]: https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white
+[Git-url]: https://git-scm.com/
+[GitHubActions.js]: https://img.shields.io/badge/githubactions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white
+[GitHubActions-url]: https://github.com/features/actions
+[Jest.js]: https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white
+[Jest-url]: https://jestjs.io/
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+
+
+## Getting Started
+
+These instructions will guide you through getting a copy of the project up and running on your local machine for development and testing purposes.
+
+### Prerequisites
+
+Before you begin, ensure you have the following tools installed:
+
+- Git
+- Node.js
+- npm (Node Package Manager)
+- PostgreSQL
+
+### Running the Application
+
+**Step 1:** Clone the repository to your local machine:
+
+```bash
+git clone https://github.com/Serdar-b/IV1201-Project.git
+```
+
+**Step 2:**  Change to the right directory
+
+```bash
+cd  IV1201-Project
+```
+#### Running the Backend 
+
+**Step 3:** Navigate into `server` directorie:
+
+```bash
+cd  server
+```
+
+**Step 4:** install all dependencies then run the server: (The Server will be running on port 5001)
+
+```bash
+npm install
+npm run dev
+```
+#### Running the Frontend 
+
+**Step 5:** Open a new terminal and navigate into `client` directorie:
+
+```bash
+cd client
+```
+
+ **step 6:** Install all dependencies then start the React application:
+
+```bash
+npm install
+npm start
+```
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Testing
 
-### `npm test`
+To run the tests for the backend server, follow these steps:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Navigate to the `server` directory:
+   ```bash
+   cd server
+   ```
+2. Install the required npm packages (if you haven't already):
+   ```bash
+   npm install
+   ```
+   
+3. Run the tests using Jest:
+   ```bash
+   npm test
+   ```
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Usage
+With both the frontend and backend running, you can interact with the application through the web interface at http://localhost:3000
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Authors
+* Ismail Mohammed https://github.com/ismailwedihaji
+* Besher Alshikha https://github.com/BisherS
+* Magnus Berg https://github.com/Mangelol
+* Serdar Bulan https://github.com/Serdar-b
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
